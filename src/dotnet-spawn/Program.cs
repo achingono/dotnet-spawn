@@ -17,6 +17,7 @@ static partial class Program
         var command = new RootCommand()
         {
             Description = "Developer tools and publishing for microservices.",
+            TreatUnmatchedTokensAsErrors = false
         };
         command.AddGlobalOption(StandardOptions.Config);
         command.AddGlobalOption(StandardOptions.Project);
@@ -24,11 +25,19 @@ static partial class Program
         command.AddGlobalOption(StandardOptions.Verbosity);
         command.AddGlobalOption(StandardOptions.Force);
 
+
         // Show commandline help unless a subcommand was used.
-        command.Handler = CommandHandler.Create<IHelpBuilder>(help =>
+        command.Handler = CommandHandler.Create<CommandArguments, ParseResult, IHelpBuilder, IConsole>(async (arguments, result, help, console) =>
         {
-            help.Write(command);
-            return 1;
+            if (result.UnmatchedTokens.Count <= 0)
+            {
+                help.Write(command);
+                return 1;
+            }
+
+            foreach(var token in result.UnmatchedTokens)
+                console.Out.WriteLine($"Executing command: '{token}'.");
+            return 0;
         });
 
         return await command.InvokeAsync(args);
