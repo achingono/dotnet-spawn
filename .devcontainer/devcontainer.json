@@ -1,6 +1,20 @@
+// For format details, see https://aka.ms/devcontainer.json. For config options, see the README at:
+// https://github.com/microsoft/vscode-dev-containers/tree/v0.222.0/containers/dotnet
 {
-    "image": "mcr.microsoft.com/vscode/devcontainers/dotnet:0-6.0",
-    "extensions": [
-        "ms-dotnettools.csharp"
-    ]
+	"name": "C# (.NET)",
+	"image": "mcr.microsoft.com/vscode/devcontainers/dotnet:0-6.0-bullseye-slim",
+
+	// Set *default* container specific settings.json values on container create.
+	"settings": {},
+
+	// Add the IDs of extensions you want installed when the container is created.
+	"extensions": [
+		"ms-dotnettools.csharp"
+	],
+
+	// Use 'forwardPorts' to make a list of ports inside the container available locally.
+	// "forwardPorts": [5000, 5001],
+
+	// Comment out to connect as root instead. More info: https://aka.ms/vscode-remote/containers/non-root.
+	"remoteUser": "vscode"
 }
