@@ -7,7 +7,7 @@
             "type": "process",
             "args": [
                 "build",
-                "${workspaceFolder}/src/dotnet-spawn.csproj",
+                "${workspaceFolder}/src/dotnet-spawn/dotnet-spawn.csproj",
                 "/property:GenerateFullPaths=true",
                 "/consoleloggerparameters:NoSummary"
             ],
@@ -19,7 +19,7 @@
             "type": "process",
             "args": [
                 "publish",
-                "${workspaceFolder}/src/dotnet-spawn.csproj",
+                "${workspaceFolder}/src/dotnet-spawn/dotnet-spawn.csproj",
                 "/property:GenerateFullPaths=true",
                 "/consoleloggerparameters:NoSummary"
             ],
@@ -33,7 +33,7 @@
                 "watch",
                 "run",
                 "--project",
-                "${workspaceFolder}/src/dotnet-spawn.csproj"
+                "${workspaceFolder}/src/dotnet-spawn/dotnet-spawn.csproj"
             ],
             "problemMatcher": "$msCompile"
         }

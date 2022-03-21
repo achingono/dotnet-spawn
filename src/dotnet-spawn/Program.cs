@@ -7,6 +7,11 @@ using System.CommandLine.IO;
 using System.CommandLine.Parsing;
 using System.Reflection;
 using System.Threading.Tasks;
+using Microsoft.CodeAnalysis;
+using Microsoft.Extensions.DependencyInjection;
+using Spawn.Extensions;
+using Spawn.Generators;
+using Spawn.Models;
 
 namespace Spawn;
 
@@ -42,9 +47,28 @@ static partial class Program
         return builder.UseDefaults().Build();
     }
 
-    private static void Handle(CommandArguments args, IConsole console)
+    private static async void Handle(CommandArguments args, IConsole console)
     {
-        console.Out.WriteLine($"Executing generator: '{args.Generator}'.");
         console.Out.WriteLine($"Loading project: '{args.Project}'.");
+        using (var serviceProvider = new ServiceCollection()
+                                    .AddServices(
+                                        args.Project, 
+                                        symbol => !(symbol.IsNamespace || symbol.IsAbstract),
+                                        model => $"{model.Name}Controller.generated.cs",
+                                        () => args.Template
+                                    )
+                                    .BuildServiceProvider())
+        {
+            console.Out.WriteLine($"Loading generator: '{args.Generator}'.");
+            var generators = serviceProvider.GetServices<IGenerator>()
+                                            .Where(g => g.Name.Equals(args.Generator));
+
+
+            foreach (var generator in generators)
+            {
+                console.Out.WriteLine($"Executing generator: '{generator.Name}'.");
+                await generator.GenerateAsync(args.Namespace, args.Output.FullName);
+            }
+        }
     }
 }

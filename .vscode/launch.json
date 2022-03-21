@@ -10,9 +10,11 @@
             "request": "launch",
             "preLaunchTask": "build",
             // If you have changed target frameworks, make sure to update the program path.
-            "program": "${workspaceFolder}/src/bin/Debug/net6.0/dotnet-spawn.dll",
-            "args": [],
-            "cwd": "${workspaceFolder}/src",
+            "program": "${workspaceFolder}/src/dotnet-spawn/bin/Debug/net6.0/dotnet-spawn.exe",
+            "args": [
+                "@controllers.rsp"
+            ],
+            "cwd": "${workspaceFolder}/src/dotnet-spawn",
             // For more information about the 'console' field, see https://aka.ms/VSCode-CS-LaunchJson-Console
             "console": "internalConsole",
             "stopAtEntry": false
