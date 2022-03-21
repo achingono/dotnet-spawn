@@ -21,12 +21,12 @@ jobs:
     - name: Setup .NET
       uses: actions/setup-dotnet@v1
       with:
-        dotnet-version: 5.0.x
+        dotnet-version: 6.0.x
     - name: Restore
       run: dotnet restore ${ROOT}
     - name: Build
-      run: dotnet build --configuration Release --no-restore ${ROOT}
+      run: dotnet build --configuration ${CONFIGURATION} --no-restore ${ROOT}
     - name: Pack
-      run: dotnet pack --configuration Release --no-build ${ROOT} -p:PackageVersion=${VERSION}.${{ github.run_id }}
+      run: dotnet pack --configuration ${CONFIGURATION} --no-build ${ROOT} -p:NuspecFile=${ROOT}${PROJECT}/${PROJECT}.nuspec -p:PackageVersion=${VERSION}.${{ github.run_id }}
     - name: Publish
       run: dotnet nuget push --source ${ROOT}${PROJECT}/bin/${CONFIGURATION}/${PROJECT}.${VERSION}.${{ github.run_id }}.nupkg --api-key ${{ secrets.NUGET_API_KEY }}
