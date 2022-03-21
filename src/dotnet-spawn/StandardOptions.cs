@@ -4,29 +4,54 @@ namespace Spawn;
 
 public static partial class StandardOptions
 {
-    public static Option Verbosity =>
-        new Option(new[] { "-v", "--verbosity" }, "Output verbosity")
-        {
-            Argument = new Argument<Verbosity>("one of: quiet|info|debug", () => Spawn.Verbosity.Info)
-            {
-                Arity = ArgumentArity.ExactlyOne,
-            },
-            Required = false,
+    public static Option<string> Namespace { get; } =
+        new Option<string>(
+            new[] { "-n", "--namespace" }, 
+            "Specify the namespace for the generated code file(s)"
+        ){ 
+            IsRequired = true,
+            Arity = ArgumentArity.ExactlyOne 
         };
 
-    public static Option Namespace =>
-        new Option(new[] { "-n", "--namespace" })
-        {
-            Description = "Specify the namespace for the generated code files",
-            Required = false,
-            Argument = new Argument<string>(),
+    public static Option<FileInfo> Template { get; } =
+        new Option<FileInfo>(
+            new[] { "-t", "--template" }, 
+            "Specify the template used for the generated code file(s)"
+        ){ 
+            IsRequired = true,
+            Arity = ArgumentArity.ExactlyOne 
         };
 
-    public static Option Force =>
-        new Option(new[] { "-f", "--force" })
-        {
-            Argument = new Argument<bool>(),
-            Description = "Force execution of command",
-            Required = false
+
+    public static Option<string> Generator { get; } =
+        new Option<string>(
+            new[] { "-g", "--generator" }, 
+            "Specify the generator used for the generated code file(s)"
+        ){ 
+            IsRequired = true,
+            Arity = ArgumentArity.ExactlyOne 
         };
+
+    public static Option<FileSystemInfo> Output { get; } =
+        new Option<FileSystemInfo>(
+            new[] { "-o", "--output" }, 
+            () => new DirectoryInfo("."),
+            "Specify the file or folder used for the generated code file(s)"
+        ){ 
+            IsRequired = true,
+            Arity = ArgumentArity.ExactlyOne 
+        };
+
+    public static Option<Verbosity> Verbosity { get; } =
+        new Option<Verbosity>(
+            new[] { "-v", "--verbosity" },
+            () => Spawn.Verbosity.Info, 
+            "Output verbosity"
+        );
+
+    public static Option<bool> Force { get; } =
+        new Option<bool>(
+            new[] { "-f", "--force" },
+            "Force execution of command"
+        );
 }

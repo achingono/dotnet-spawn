@@ -14,32 +14,37 @@ static partial class Program
 {
     public static async Task<int> Main(string[] args)
     {
+        var parser = BuildParser();
+
+        return await parser.InvokeAsync(args);
+    }
+
+    private static Parser BuildParser()
+    {
+
         var command = new RootCommand()
         {
-            Description = "Developer tools and publishing for microservices.",
-            TreatUnmatchedTokensAsErrors = false
+            Description = "Roslyn based code generator.",
+            TreatUnmatchedTokensAsErrors = true
         };
-        command.AddGlobalOption(StandardOptions.Config);
+
         command.AddGlobalOption(StandardOptions.Project);
+        command.AddGlobalOption(StandardOptions.Template);
+        command.AddGlobalOption(StandardOptions.Generator);
         command.AddGlobalOption(StandardOptions.Namespace);
+        command.AddGlobalOption(StandardOptions.Output);
         command.AddGlobalOption(StandardOptions.Verbosity);
         command.AddGlobalOption(StandardOptions.Force);
 
+        command.SetHandler<CommandArguments, IConsole>(Handle, new CommandBinder());
 
-        // Show commandline help unless a subcommand was used.
-        command.Handler = CommandHandler.Create<CommandArguments, ParseResult, IHelpBuilder, IConsole>(async (arguments, result, help, console) =>
-        {
-            if (result.UnmatchedTokens.Count <= 0)
-            {
-                help.Write(command);
-                return 1;
-            }
+        var builder = new CommandLineBuilder(command);
+        return builder.UseDefaults().Build();
+    }
 
-            foreach(var token in result.UnmatchedTokens)
-                console.Out.WriteLine($"Executing command: '{token}'.");
-            return 0;
-        });
-
-        return await command.InvokeAsync(args);
+    private static void Handle(CommandArguments args, IConsole console)
+    {
+        console.Out.WriteLine($"Executing generator: '{args.Generator}'.");
+        console.Out.WriteLine($"Loading project: '{args.Project}'.");
     }
 }
