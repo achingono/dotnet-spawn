@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+    <metadata>
+        <!-- Required elements-->
+        <id>Spawn</id>
+        <version>0.1.0</version>
+        <description>Command line tool for generating code files using Roslyn.</description>
+        <authors>achingono</authors>
+        <projectUrl>https://github.com/achingono/dotnet-spawn</projectUrl>
+        <license type="expression">MIT</license>
+        <repository type="git" url="https://github.com/achingono/dotnet-spawn.git" />
+    </metadata>
+    <!-- Optional 'files' node -->
+</package>

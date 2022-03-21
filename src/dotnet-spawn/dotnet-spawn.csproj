@@ -7,8 +7,9 @@
     <Nullable>enable</Nullable>
     <IsPackable>true</IsPackable>
     <PackAsTool>true</PackAsTool>
-    <RootNamespace>Spawn</RootNamespace>
-    <Description>Command line tool for generating code files based on configuration settings.</Description>
+    <ToolCommandName>spawn</ToolCommandName>
+    <RootNamespace>PlainscopeSpawn</RootNamespace>
+    <Description>Command line tool for generating code files using Roslyn.</Description>
   </PropertyGroup>
 
   <PropertyGroup>
