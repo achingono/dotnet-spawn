@@ -8,6 +8,8 @@ using System.CommandLine.Parsing;
 using System.Reflection;
 using System.Threading.Tasks;
 using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.CSharp;
+using Microsoft.CodeAnalysis.CSharp.Scripting;
 using Microsoft.Extensions.DependencyInjection;
 using Spawn.Extensions;
 using Spawn.Generators;
@@ -37,6 +39,8 @@ static partial class Program
         command.AddGlobalOption(StandardOptions.Template);
         command.AddGlobalOption(StandardOptions.Generator);
         command.AddGlobalOption(StandardOptions.Namespace);
+        command.AddGlobalOption(StandardOptions.Match);
+        command.AddGlobalOption(StandardOptions.Pattern);
         command.AddGlobalOption(StandardOptions.Output);
         command.AddGlobalOption(StandardOptions.Verbosity);
         command.AddGlobalOption(StandardOptions.Force);
@@ -50,11 +54,12 @@ static partial class Program
     private static async void Handle(CommandArguments args, IConsole console)
     {
         console.Out.WriteLine($"Loading project: '{args.Project}'.");
+
         using (var serviceProvider = new ServiceCollection()
                                     .AddServices(
-                                        args.Project, 
-                                        symbol => !(symbol.IsNamespace || symbol.IsAbstract),
-                                        model => $"{model.Name}Controller.generated.cs",
+                                        args.Project,
+                                        args.Match,
+                                        args.Pattern,
                                         () => args.Template
                                     )
                                     .BuildServiceProvider())

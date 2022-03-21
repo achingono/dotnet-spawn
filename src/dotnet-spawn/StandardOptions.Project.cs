@@ -12,14 +12,14 @@ public static partial class StandardOptions
     public static Option<FileInfo> Project { get; } =
     new Option<FileInfo>(
                 new[] { "-p", "--project", }, 
-                parseArgument: TryParse,
+                parseArgument: TryParseFileInfo,
                 description: "Project file, Solution file or directory")
             {
                 Arity = ArgumentArity.ExactlyOne,
                 IsRequired = true,
             };
 
-    static FileInfo TryParse(ArgumentResult result)
+    static FileInfo TryParseFileInfo(ArgumentResult result)
     {
         var token = result.Tokens.Count switch
         {
