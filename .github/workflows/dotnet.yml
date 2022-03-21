@@ -27,6 +27,6 @@ jobs:
     - name: Build
       run: dotnet build --configuration ${CONFIGURATION} --no-restore ${ROOT}
     - name: Pack
-      run: dotnet pack --configuration ${CONFIGURATION} --no-build ${ROOT} -p:NuspecFile=${PROJECT}.nuspec -p:PackageVersion=${VERSION}.${{ github.run_id }}
+      run: dotnet pack --configuration ${CONFIGURATION} --no-build -p:PackageVersion=${VERSION}.${{ github.run_id }} ${ROOT} 
     - name: Publish
       run: dotnet nuget push --source ${ROOT}${PROJECT}/bin/${CONFIGURATION}/${PROJECT}.${VERSION}.${{ github.run_id }}.nupkg --api-key ${{ secrets.NUGET_API_KEY }}

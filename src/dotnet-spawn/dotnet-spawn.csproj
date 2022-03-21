@@ -9,7 +9,15 @@
     <PackAsTool>true</PackAsTool>
     <ToolCommandName>spawn</ToolCommandName>
     <RootNamespace>PlainscopeSpawn</RootNamespace>
+    <Title>Roslyn based code generator</Title>
     <Description>Command line tool for generating code files using Roslyn.</Description>
+    <PackageId>dotnet-spawn</PackageId>
+    <Authors>achingono</Authors>
+    <PackageProjectUrl>https://github.com/achingono/dotnet-spawn</PackageProjectUrl>
+    <PackageLicense>MIT</PackageLicense>
+    <Copyright>Copyright (c) 2018 - 2022 Alfero Chingono</Copyright>
+    <IncludeSymbols>true</IncludeSymbols>
+		<SymbolPackageFormat>snupkg</SymbolPackageFormat>
   </PropertyGroup>
 
   <PropertyGroup>
