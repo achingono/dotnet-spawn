@@ -10,6 +10,7 @@ env:
   PROJECT: dotnet-spawn
   CONFIGURATION: Release
   VERSION: 0.1
+  SUFFIX: ${{ github.ref == 'refs/heads/master' && '' || '-beta' }}
   
 jobs:
   build:
@@ -27,6 +28,6 @@ jobs:
     - name: Build
       run: dotnet build --configuration ${CONFIGURATION} --no-restore ${ROOT}
     - name: Pack
-      run: dotnet pack --configuration ${CONFIGURATION} --no-build -p:PackageVersion=${VERSION}.${{ github.run_id }} ${ROOT} 
+      run: dotnet pack --configuration ${CONFIGURATION} --no-build -p:PackageVersion=${VERSION}.${{ github.run_number }}${SUFFIX} ${ROOT} 
     - name: Publish
-      run: dotnet nuget push ${ROOT}${PROJECT}/bin/${CONFIGURATION}/${PROJECT}.${VERSION}.${{ github.run_id }}.nupkg --source https://api.nuget.org/v3/index.json --api-key ${{ secrets.NUGET_API_KEY }}
+      run: dotnet nuget push ${ROOT}${PROJECT}/bin/${CONFIGURATION}/${PROJECT}.${VERSION}.${{ github.run_number }}${SUFFIX}.nupkg --source https://api.nuget.org/v3/index.json --api-key ${{ secrets.NUGET_API_KEY }}
