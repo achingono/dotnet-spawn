@@ -22,10 +22,13 @@ namespace Spawn.Extensions
             FileInfo solution,
             Func<INamedTypeSymbol, bool> predicate,
             Func<TemplateModel, string> fileNameGenerator,
-            Func<FileInfo> templateAccessor
+            Func<FileInfo> templateAccessor,
+            Verbosity verbosity
             )
         {
-            return services.AddLogging(configure => configure.AddConsole())
+            return services.AddLogging(configure => configure.AddConsole()
+                                                            .AddFilter(level => (int)level >= (int)verbosity)
+                            )
                             .AddMSBuildWorkspace()
                             .AddSolution(solution.FullName)
                             .AddCompilations()

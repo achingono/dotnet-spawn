@@ -53,27 +53,42 @@ static partial class Program
 
     private static async void Handle(CommandArguments args, IConsole console)
     {
-        console.Out.WriteLine($"Loading project: '{args.Project}'.");
+        if (args.Verbosity != Verbosity.Quiet)
+            console.Out.WriteLine($"Loading project: '{args.Project}'.");
 
-        using (var serviceProvider = new ServiceCollection()
-                                    .AddServices(
-                                        args.Project,
-                                        args.Match,
-                                        args.Pattern,
-                                        () => args.Template
-                                    )
-                                    .BuildServiceProvider())
+        try
         {
-            console.Out.WriteLine($"Loading generator: '{args.Generator}'.");
-            var generators = serviceProvider.GetServices<IGenerator>()
-                                            .Where(g => g.Name.Equals(args.Generator));
-
-
-            foreach (var generator in generators)
+            using (var serviceProvider = new ServiceCollection()
+                                        .AddServices(
+                                            args.Project,
+                                            args.Match,
+                                            args.Pattern,
+                                            () => args.Template,
+                                            args.Verbosity
+                                        )
+                                        .BuildServiceProvider())
             {
-                console.Out.WriteLine($"Executing generator: '{generator.Name}'.");
-                await generator.GenerateAsync(args.Namespace, args.Output.FullName);
+                if (args.Verbosity != Verbosity.Quiet)
+                    console.Out.WriteLine($"Loading generator: '{args.Generator}'.");
+
+                var generators = serviceProvider.GetServices<IGenerator>()
+                                                .Where(g => g.Name.Equals(args.Generator));
+
+
+                foreach (var generator in generators)
+                {
+                    if (args.Verbosity != Verbosity.Quiet)
+                        console.Out.WriteLine($"Executing generator: '{generator.Name}'.");
+                        
+                    await generator.GenerateAsync(args.Namespace, args.Output.FullName);
+                }
             }
+        }
+        catch (Exception ex)
+        {
+            console.Error.WriteLine(ex.Message);
+            if (args.Verbosity == Verbosity.Debug)
+                console.Error.WriteLine(ex.StackTrace!);
         }
     }
 }

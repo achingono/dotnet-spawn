@@ -2,7 +2,7 @@ namespace Spawn;
 
 public enum Verbosity
 {
-    Quiet,
-    Info,
     Debug,
+    Info = 2,
+    Quiet = 6,
 }

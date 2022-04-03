@@ -41,6 +41,7 @@ namespace Spawn.Generators
 
         public async Task GenerateAsync(string targetNamespace, string targetPath)
         {
+            Logger.LogDebug($"Enter method: '{nameof(GenerateAsync)}'");
             var entities = Compilations.GetNamedTypeSymbols()
                                     .Where(SymbolPredicate)
                                     .Distinct(SymbolEqualityComparer.Default);
@@ -50,10 +51,16 @@ namespace Spawn.Generators
             var parent = Directory.GetParent(targetPath);
 
             if (parent != null && !parent.Exists)
+            {
+                Logger.LogInformation($"Creating directory: '{parent.FullName}'");
                 parent.Create();
+            }
 
+            Logger.LogDebug($"Writing to file: '{targetPath}'");
             File.WriteAllText(targetPath, result);
+
             Logger.LogInformation($"Generated file: '{targetPath}'");
+            Logger.LogDebug($"Enter method: '{nameof(GenerateAsync)}'");
         }
     }
 }
