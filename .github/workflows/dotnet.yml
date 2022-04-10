@@ -10,7 +10,7 @@ env:
   PROJECT: dotnet-spawn
   CONFIGURATION: Release
   VERSION: 0.1
-  SUFFIX: ${{ github.ref == 'refs/heads/master' && '' || '-beta' }}
+  SUFFIX: ${{ github.ref == 'refs/heads/main' && '' || '-beta' }}
   
 jobs:
   build:
