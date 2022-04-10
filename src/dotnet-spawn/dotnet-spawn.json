@@ -1,0 +1,19 @@
+{
+    "project": "C:\\Users\\achingono\\Source\\Repos\\realsping-ca\\realspring-app\\src\\Realspring.Src.sln",
+    "generators": [
+        {
+            "name": "controllers",
+            "template": "C:\\Users\\achingono\\Source\\Repos\\vaka\\vaka\\src\\Vaka.Generator\\Templates\\EntityController.cshtml",
+            "output": "C:\\Users\\achingono\\Source\\Repos\\realsping-ca\\realspring-app\\src\\Services\\Admin\\Realspring.Services.Admin\\Controllers",
+            "namespace": "Realspring.Services.Admin.Controllers",
+            "generator": "Folder"
+        },
+        {
+            "name": "processors",
+            "template": "C:\\Users\\achingono\\Source\\Repos\\vaka\\vaka\\src\\Vaka.Generator\\Templates\\EntityProcessor.cshtml",
+            "output": "C:\\Users\\achingono\\Source\\Repos\\realsping-ca\\realspring-app\\src\\Services\\Admin\\Realspring.Services.Admin\\Processors",
+            "namespace": "Realspring.Services.Admin.Processors",
+            "generator": "Folder"
+        },
+    ]
+}
