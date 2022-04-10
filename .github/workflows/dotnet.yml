@@ -10,7 +10,7 @@ env:
   PROJECT: dotnet-spawn
   CONFIGURATION: Release
   VERSION: 0.1
-  SUFFIX: ${{ github.ref == 'refs/heads/main' && '' || '-beta' }}
+  SUFFIX: ''
   
 jobs:
   build:
@@ -18,16 +18,26 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+    - name: Set Suffix
+      run: |
+        echo "SUFFIX=-beta" >> $GITHUB_ENV
+      if: github.ref_name != 'main'
+
     - uses: actions/checkout@v2
     - name: Setup .NET
       uses: actions/setup-dotnet@v1
       with:
         dotnet-version: 6.0.x
+
     - name: Restore
       run: dotnet restore ${ROOT}
+
     - name: Build
       run: dotnet build --configuration ${CONFIGURATION} --no-restore ${ROOT}
+
     - name: Pack
-      run: dotnet pack --configuration ${CONFIGURATION} --no-build -p:PackageVersion=${VERSION}.${{ github.run_number }}${SUFFIX} ${ROOT} 
+      run: dotnet pack --configuration ${CONFIGURATION} --no-build -p:PackageVersion=${VERSION}.${{ github.run_number }}${SUFFIX} ${ROOT}
+
     - name: Publish
       run: dotnet nuget push ${ROOT}${PROJECT}/bin/${CONFIGURATION}/${PROJECT}.${VERSION}.${{ github.run_number }}${SUFFIX}.nupkg --source https://api.nuget.org/v3/index.json --api-key ${{ secrets.NUGET_API_KEY }}
+      if: github.ref_name == 'main' || github.ref_name == 'dev'
