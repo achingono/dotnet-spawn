@@ -2,7 +2,7 @@
 // https://github.com/microsoft/vscode-dev-containers/tree/v0.222.0/containers/dotnet
 {
 	"name": "C# (.NET)",
-	"image": "mcr.microsoft.com/vscode/devcontainers/dotnet:0-6.0-bullseye-slim",
+	"image": "mcr.microsoft.com/devcontainers/dotnet:0-7.0",
 
 	// Set *default* container specific settings.json values on container create.
 	"settings": {},
