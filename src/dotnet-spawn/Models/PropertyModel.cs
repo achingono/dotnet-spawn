@@ -18,7 +18,7 @@ namespace Spawn.Models
         public bool IsLongString => Symbol.IsLongString();
         public bool IsBasicKind => Symbol.Type.IsBasicKind();
         public bool IsVirtual => Symbol.IsVirtual;
-        internal IPropertySymbol Symbol { get; }
+        public IPropertySymbol Symbol { get; }
         public EntityModel EntityModel { get; }
         public SpecialType SpecialType => Symbol.Type.SpecialType;
         public TypeKind TypeKind => Symbol.Type.TypeKind;
