@@ -18,12 +18,14 @@ namespace Spawn.Models
         public bool IsLongString => Symbol.IsLongString();
         public bool IsBasicKind => Symbol.Type.IsBasicKind();
         public bool IsVirtual => Symbol.IsVirtual;
+        public bool IsDateTime => SpecialType == SpecialType.System_DateTime;
+        public bool IsNumberic => Symbol.Type.IsNumeric();
         public IPropertySymbol Symbol { get; }
         public EntityModel EntityModel { get; }
         public SpecialType SpecialType => Symbol.Type.SpecialType;
         public TypeKind TypeKind => Symbol.Type.TypeKind;
         public TypedConstantKind TypedConstantKind => Symbol.Type.GetTypedConstantKind();
-
+        public string DisplayPath => Symbol.DisplayPath();
         public PropertyModel(IPropertySymbol symbol)
         {
             Symbol = symbol;

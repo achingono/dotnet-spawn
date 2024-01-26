@@ -57,5 +57,20 @@ namespace Spawn.Extensions
                 .Where(x => !x.IsVirtual);
         }
 
+        public static IEnumerable<IPropertySymbol> GetDisplayProperties(this INamedTypeSymbol symbol)
+        {
+            var attribute = symbol.GetAttributes().FirstOrDefault(x => x.AttributeClass?.Name == "DisplayColumnAttribute");
+            var propertyName = (string?)attribute?.ConstructorArguments.FirstOrDefault().Value;
+            if (string.IsNullOrWhiteSpace(propertyName))
+                yield break;
+            if (propertyName.Contains(','))
+            {
+                var propertyNames = propertyName.Split(",", StringSplitOptions.RemoveEmptyEntries);
+                foreach (var property in symbol.GetProperties().Where(x => propertyNames.Contains(x.Name)))
+                    yield return property;
+            }
+            foreach( var property in symbol.GetProperties().Where(x => x.Name == propertyName))
+                yield return property;
+        }
     }
 }

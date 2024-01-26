@@ -67,5 +67,20 @@ namespace Spawn.Extensions
                     || (namedSymbol.ConstructedFrom != null
                     && namedSymbol.ConstructedFrom.IsGenericType));
         }
+
+        public static bool IsNumeric(this ITypeSymbol symbol)
+        {
+            return symbol.SpecialType == SpecialType.System_Int16 ||
+                    symbol.SpecialType == SpecialType.System_Int32 ||
+                    symbol.SpecialType == SpecialType.System_Int64 ||
+                    symbol.SpecialType == SpecialType.System_UInt16 ||
+                    symbol.SpecialType == SpecialType.System_UInt32 ||
+                    symbol.SpecialType == SpecialType.System_UInt64 ||
+                    symbol.SpecialType == SpecialType.System_Single ||
+                    symbol.SpecialType == SpecialType.System_Double ||
+                    symbol.SpecialType == SpecialType.System_Decimal;
+        }
+
+        public static string NameAsWords(this ITypeSymbol symbol) => Regex.Replace(symbol.Name, "([A-Z])", " $1", RegexOptions.Compiled).Trim();
     }
 }
