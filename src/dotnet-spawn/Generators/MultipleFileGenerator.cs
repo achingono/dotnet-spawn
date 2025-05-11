@@ -53,12 +53,13 @@ namespace Spawn.Generators
             {
                 var model = new TemplateModel(entity!, targetNamespace);
                 var path = Path.Combine(targetPath, FileNameGenerator(model));
+                var directory = Path.GetDirectoryName(path);
                 string result = await Engine.CompileRenderAsync(TemplateAccessor().FullName, model);
 
-                if (!Directory.Exists(targetPath))
+                if (null != directory && !Directory.Exists(directory))
                 {
-                    Logger.LogInformation($"Creating directory: '{targetPath}'");
-                    Directory.CreateDirectory(targetPath);
+                    Logger.LogInformation($"Creating directory: '{directory}'");
+                    Directory.CreateDirectory(directory);
                 }
 
                 File.WriteAllText(path, result);
